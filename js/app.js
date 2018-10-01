@@ -111,7 +111,7 @@
 
     playTo.change = function(newPlayTo) {
         this.setState(function() {
-            return { playTo: newPlayTo };
+            return { playTo: Number(newPlayTo) };
         });
     }
 
