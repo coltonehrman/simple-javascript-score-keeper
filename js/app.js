@@ -114,13 +114,6 @@
             return { playTo: Number(newPlayTo) };
         });
     }
-
-    function resetGame() {
-        score.reset();
-
-        playerOne.off('click').on('click', function() { score.incrementScore('playerOne') });
-        playerTwo.off('click').on('click', function() { score.incrementScore('playerTwo') });
-    }
     
     playToInput.on('change', function(event) {
         var value = playToInput.getValue();
@@ -137,4 +130,11 @@
     reset.on('click', resetGame);
 
     resetGame();
+
+    function resetGame() {
+        score.reset();
+
+        playerOne.off('click').on('click', function() { score.incrementScore('playerOne') });
+        playerTwo.off('click').on('click', function() { score.incrementScore('playerTwo') });
+    }
 })();
