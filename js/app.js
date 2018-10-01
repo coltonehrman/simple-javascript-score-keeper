@@ -59,7 +59,9 @@
                     handler.apply(null, props.map(function(prop) { return state[prop] }));
                 });
             },
-            state: self.state,
+            getState: function() {
+                return self.state;
+            },
             $element: self.$element,
         };
     }
@@ -77,7 +79,7 @@
 
     var score = new element('.score', { playerOne: 0, playerTwo: 0 }, function(state) {
         function getScore(player) {
-            return (state[player] >= playTo.state.playTo) ?
+            return (state[player] >= playTo.getState().playTo) ?
                 '<span class="green">' + state[player] + '</span>' :
                 state[player];
         }
@@ -97,7 +99,7 @@
     };
 
     score.onStateChange(['playerOne', 'playerTwo'], function(playerOneScore, playerTwoScore) {
-        if (playerOneScore >= playTo.state.playTo || playerTwoScore >= playTo.state.playTo) {
+        if (playerOneScore >= playTo.getState().playTo || playerTwoScore >= playTo.getState().playTo) {
             playerOne.off('click');
             playerTwo.off('click');
 
@@ -123,8 +125,12 @@
             value = playToInput.getValue();
         }
 
-        playTo.change(value);
-        score.reset();
+        if (score.getState().playerOne < playTo.getState().playTo && score.getState().playerTwo < playTo.getState().playTo) {
+            playTo.change(value);
+            score.reset();
+        }
+
+        playToInput.$element.value = playTo.getState().playTo;
     });
 
     reset.on('click', resetGame);
@@ -133,7 +139,7 @@
 
     function resetGame() {
         score.reset();
-        playToInput.$element.value = playTo.state.playTo;
+        playToInput.$element.value = playTo.getState().playTo;
         playerOne.off('click').on('click', function() { score.incrementScore('playerOne') });
         playerTwo.off('click').on('click', function() { score.incrementScore('playerTwo') });
     }
