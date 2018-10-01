@@ -133,7 +133,7 @@
 
     function resetGame() {
         score.reset();
-
+        playToInput.$element.value = playTo.state.playTo;
         playerOne.off('click').on('click', function() { score.incrementScore('playerOne') });
         playerTwo.off('click').on('click', function() { score.incrementScore('playerTwo') });
     }
